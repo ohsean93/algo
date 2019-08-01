@@ -1,3 +1,6 @@
+import sys
+sys.stdin = open("input.txt", "r")
+
 T = int(input()) + 1
 
 for test_case in range(1, T):

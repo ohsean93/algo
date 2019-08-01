@@ -10,7 +10,7 @@ with open('student.csv', mode = 'r', encoding='utf8', newline= '') as f:
         name = row[1]
         dict_ssafy21[student_id]=name
 
-sheet = list(range(1,27))
+sheet = list(range(1,24))
 shuffle(sheet)
 
 
