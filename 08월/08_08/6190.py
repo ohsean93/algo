@@ -12,17 +12,13 @@ for test_case in range(int(input())):
     for i in range(n):
         for j in range(i+1,n):
             num = num_list[i] * num_list[j]
-            b = num % 10
-            num //= 10
-            while num > 9:
-                a = num % 10
-                num //= 10
-                if b>=a:
-                    b=a:
-                else:
+            list_num = list(str(num))
+            for k in range(len(list_num)-1):
+                if list_num[k] > list_num[k+1]:
                     break
-            if num > max_num:
-                max_num = num
+            else:
+                if num > max_num:
+                    max_num = num
 
 
     print('#{} {}'.format(test_case+1,max_num))
