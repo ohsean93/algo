@@ -11,38 +11,21 @@ line_2 = [
     '2016-09-15 21:00:00.966 0.381s',
     '2016-09-15 21:00:02.066 2.62s'
 ]
+line_3 = ['2016-09-15 00:00:00.000 3s']
 
 
 def solution(lines):
-    answer = 0
     all_time = [0] * 86400001
-    traffic = []
 
-    min_time, max_time = 86400001, 0
-    for time_str in line_2:
+    max_num = 0
+    for time_str in lines:
         a, b = change_time(time_str)
-        if a < min_time:
-            min_time = a
-        if b > max_time:
-            max_time = b
-        traffic.append((a, b))
-        for num in range(a, b):
-            all_time[num] = 1
+        for num in range(max(0, a-1001), b+1):
+            p = all_time[num] = all_time[num] + 1
+            if p > max_num:
+                max_num = p
 
-    answer = 0
-    for check_times in range(min_time, max_time):
-        if all_time[check_times]:
-            cnt = 0
-            for a, b in traffic:
-                if check_times + 1000 < a or check_times >= b:
-                    continue
-                else:
-                    cnt += 1
-            # aa = check_times % 60000
-            if answer < cnt:
-                answer = cnt
-
-    return answer
+    return max_num
 
 
 def change_time(str_time):
@@ -57,3 +40,4 @@ def change_time(str_time):
     return end_time, start_time
 
 
+print(solution(line_3))
