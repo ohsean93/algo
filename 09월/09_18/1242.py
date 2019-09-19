@@ -46,40 +46,49 @@ for test_case in range(1, T + 1):
     ans = 0
     n, m = map(int, input().split())
     code_list = set()
-    temp = '0' * m
+    temp = 0
     for _ in range(n):
         line = input()
-        if temp != line and int(line, 16):
+        b = int(line, 16)
+
+        if temp ^ b and b:
             hide_code = bin(int(line.strip('0'), 16))[2:].strip('0')
             find_code = []
             cnt = 1
             mod = '0'
             for num in hide_code:
+
                 if num == mod:
                     cnt += 1
                 else:
                     find_code.append(cnt)
+
                     if mod == '1':
                         mod = '0'
                         cnt = 1
                     else:
                         mod = '1'
                         cnt = 1
+
             find_code.append(cnt)
-            temp = line
+            temp = b
+
             while find_code:
                 one_code = find_code[:32]
                 find_code = find_code[32:]
                 code = []
                 d = min(list(one_code[1:]))
+
                 while one_code:
                     checker = one_code[1:4]
                     checker = ''.join([str(x//d) for x in checker])
                     code.append(num_list[checker])
                     one_code = one_code[4:]
                 code_list.add(tuple(code))
+
     for code in code_list:
         a, b = sum(code[1::2]), sum(code[0::2])
+
         if (a+3*b) % 10:
             ans += 0
         else:
