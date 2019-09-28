@@ -4,6 +4,7 @@ input.txt
 output.txt
 test
 .idea
+setting.py
 
 
 # Created by https://www.gitignore.io/api/code,python,django,pycharm
