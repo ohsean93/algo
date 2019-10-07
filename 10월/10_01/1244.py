@@ -1,7 +1,3 @@
-import sys
-
-sys.stdin = open('input.txt', 'r')
-
 import itertools
 
 T = int(input())
@@ -14,38 +10,39 @@ for test_case in range(1, T + 1):
         continue
     origin = list(origin_str)
     goal_list = sorted(origin, reverse=True)
+    goal = int(''.join(goal_list))
 
-    cnt = 0
-    for i in range(n):
-        if origin[i] == goal_list[i]:
-            continue
-        else:
-            cnt += 1
-            j = origin.index(goal_list[i], i)
-            origin[i], origin[j] = origin[j], origin[i]
+    can_change_case = list(itertools.combinations(range(n), 2))
+    stack = [origin]
+    i = 0
+    ans = int(origin_str)
+    for i in range(can_change):
+        p = 0
+        new_stack = []
+        for now_prise in stack:
+            prise = int(''.join(now_prise))
+            for x, y in can_change_case:
+                next_prise = now_prise.copy()
+                next_prise[x], next_prise[y] = next_prise[y], next_prise[x]
+                p = int(''.join(next_prise))
+                if p < ans:
+                    continue
+                if next_prise in new_stack:
+                    continue
+                else:
+                    new_stack.append(next_prise)
+                if ans < p:
+                    ans = p
+                if p == goal:
+                    break
+            if p == goal:
+                break
+        if p == goal:
+            break
+        stack = new_stack
 
-    if cnt == 0:
-        print('#{} {}'.format(test_case, origin_str))
-        continue
-    if cnt < can_change:
-        if (can_change-cnt) % 2:
-            goal_list[-1], goal_list[-2] = goal_list[-2], goal_list[-1]
-            print('#{} {}'.format(test_case, ''.join(goal_list)))
-            continue
-        else:
-            print('#{} {}'.format(test_case, ''.join(goal_list)))
-            continue
-
-    max_num = 0
-    origin = list(origin_str)
-    num_list = list(range(n))
-    all_can_change = list(itertools.combinations(num_list, 2))
-    all_case = list(itertools.permutations(all_can_change, can_change))
-    for case in all_case:
-        copy_origin = origin.copy()
-        for n_1, n_2 in case:
-            copy_origin[n_1], copy_origin[n_2] = copy_origin[n_2], copy_origin[n_1]
-        case_num = int(''.join(copy_origin))
-        if max_num < case_num:
-            max_num = case_num
-    print('#{} {}'.format(test_case, max_num))
+    if (can_change-i) % 2:
+        print('#{} {}'.format(test_case, ans))
+    else:
+        goal_list[-1], goal_list[-2] = goal_list[-2], goal_list[-1]
+        print('#{} {}'.format(test_case, ''.join(goal_list)))
